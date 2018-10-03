@@ -1,0 +1,80 @@
+import profesionales.*
+import universidades.*
+import empresas.*
+describe "test etapa 1" {
+
+/*Tenemos estas universidades:
+
+de San Martín: está en la provincia de Buenos Aires, los honorarios recomendados son de 3500 pesos.
+de Rosario: está en la provincia de Santa Fe, los honorarios recomendados son de 2800 pesos.
+de Corrientes: está en la provincia de Corrientes, los honorarios recomendados son de 4200 pesos.
+de Hurlingham: está en la provincia de Buenos Aires, los honorarios recomendados son de 8800 pesos.
+y estos profesionales
+
+Juana, vinculada, estudió en la Univ. de Rosario.
+Melina, asociada el Litoral, estudió en la Univ. de Corrientes.
+Rocío, libre, estudió en la Univ. de Hurlingham, honorarios 5000 pesos, puede trabajar en Santa Fe, Córdoba y Buenos Aires.
+Luciana, libre, estudió en la Univ. de Rosario, honorarios 3200 pesos, puede trabajar en Santa Fe y Entre Ríos.
+Una empresa que contrate a estos cuatro profesionales, y cuyos honorarios de referencia son 3500 pesos, debe tener
+
+como profesionales caros, solamente a Rocío.
+como universidades formadoras, a las de Rosario, Corrientes y Hurlingham.
+como profesional más barato a Juana.
+las provincias de Santa Fe y Córdoba están cubiertas, pero Misiones no.
+dos de sus profesionales estudiaron en Rosario, uno en Hurlingham, ninguno (o sea cero) en San Martín. */
+	const sanMartin = new Universidad()
+	const rosario = new Universidad()
+	const corrientes = new Universidad()
+	const hurlingham = new Universidad()
+	
+	const juana = new ProfesionalVinculado()
+	const melina = new ProfesionalAsociado()
+	const rocio = new ProfesionalLibre()
+	const luciana = new ProfesionalLibre()
+	
+	fixture{
+		sanMartin.honorariosRecomendados(3500)
+		sanMartin.provincia("Buenos Aires")
+		rosario.honorariosRecomendados(2800)
+		rosario.provincia("Santa Fe")
+		corrientes.honorariosRecomendados(4200)
+		corrientes.provincia("Corrientes")
+		hurlingham.honorariosRecomendados(8800)
+		hurlingham.provincia("Buenos Aires")
+		juana.universidad(rosario)
+		melina.universidad(corrientes)
+		rocio.universidad(hurlingham)
+		rocio.setHonorariosPorHora(5000)
+		rocio.setProvinciasDondePuedeTrabajar("Santa Fe")
+		rocio.setProvinciasDondePuedeTrabajar("Cordoba")
+		rocio.setProvinciasDondePuedeTrabajar("Buenos Aires")
+		luciana.universidad(rosario)
+		luciana.setHonorariosPorHora(3200)
+		luciana.setProvinciasDondePuedeTrabajar("Santa Fe")
+		luciana.setProvinciasDondePuedeTrabajar("Entre Rios")
+		
+		empresa.contratar(juana)
+		empresa.contratar(melina)
+		empresa.contratar(rocio)
+		empresa.contratar(luciana)
+		empresa.honorarioDeReferencia(3500)
+	}
+	test "profesionales caros"{assert.equals([rocio], empresa.profesionalesCaros())}
+	
+	test "universidades formadoras"{assert.equals(#{rosario,corrientes,hurlingham}, empresa.universidadesFormadoras())}
+	
+	test "profesional mas barato"{ assert.equals(juana, empresa.profesionalMasBarato())}
+	
+	test "provincias cubiertas"{
+		
+		assert.that(empresa.provinciaCubierta("Santa Fe"))
+		assert.that(empresa.provinciaCubierta("Cordoba"))
+		assert.notThat(empresa.provinciaCubierta("Misiones"))
+	}	
+	test "estudiaron en"{
+		assert.equals(2, empresa.estudiaronEn(rosario))
+		assert.equals(1, empresa.estudiaronEn(hurlingham))
+		assert.equals(0, empresa.estudiaronEn(sanMartin))
+	}
+
+}
