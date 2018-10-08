@@ -30,6 +30,8 @@ class ProfesionalVinculado {
 class ProfesionalLibre {
 	var universidad
 	var honorariosPorHora
+	
+	// TODO Esta inicialización es innecesaria y muestra fallas en conceptos básicos.
 	var provinciasDondePuedeTrabajar=[]
 	
 	method universidad() { return universidad }

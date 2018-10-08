@@ -22,7 +22,13 @@ como universidades formadoras, a las de Rosario, Corrientes y Hurlingham.
 como profesional más barato a Juana.
 las provincias de Santa Fe y Córdoba están cubiertas, pero Misiones no.
 dos de sus profesionales estudiaron en Rosario, uno en Hurlingham, ninguno (o sea cero) en San Martín. */
-	const sanMartin = new Universidad()
+
+	// TODO Se lee más fácil así:
+	const sanMartin = new Universidad(
+		honorariosRecomendados = 3500,
+		provincia = "Buenos Aires"
+	)
+		
 	const rosario = new Universidad()
 	const corrientes = new Universidad()
 	const hurlingham = new Universidad()
@@ -33,8 +39,6 @@ dos de sus profesionales estudiaron en Rosario, uno en Hurlingham, ninguno (o se
 	const luciana = new ProfesionalLibre()
 	
 	fixture{
-		sanMartin.honorariosRecomendados(3500)
-		sanMartin.provincia("Buenos Aires")
 		rosario.honorariosRecomendados(2800)
 		rosario.provincia("Santa Fe")
 		corrientes.honorariosRecomendados(4200)
